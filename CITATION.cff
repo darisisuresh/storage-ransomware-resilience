@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this research companion, please cite it using the metadata below."
+title: "Storage Ransomware Resilience"
+type: software
+authors:
+  - family-names: Darisi
+    given-names: Suresh Kumar
+year: 2026
+repository-code: "https://github.com/darisisuresh/storage-ransomware-resilience"
+url: "https://darisisuresh.github.io/storage-ransomware-resilience/"
+license: MIT
