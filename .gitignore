@@ -1,0 +1,16 @@
+# Manuscripts and private evidence must never be committed
+*.docx
+*.doc
+*.pdf
+*.tex
+*.txt
+raw/
+private/
+extracted-text/
+reports/
+**/aegis*.json
+**/aegis*.html
+.DS_Store
+__pycache__/
+*.pyc
+
