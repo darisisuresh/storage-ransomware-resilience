@@ -13,6 +13,9 @@ class PrivacyCheckTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'README.md'; p.write_text('safe research summary')
             self.assertFalse(m.scan([p]))
+    def test_rejects_private_key(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/'notes.md'; p.write_text('-----BEGIN ' + 'PRIVATE KEY-----')
+            self.assertTrue(m.scan([p]))
 
 if __name__=='__main__': unittest.main()
-

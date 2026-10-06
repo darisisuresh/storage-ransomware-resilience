@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this research companion, please cite it using the metadata below."
 title: "Storage Ransomware Resilience"
 type: software
+version: 1.0.0
+date-released: 2026-10-05
 authors:
   - family-names: Darisi
     given-names: Suresh Kumar

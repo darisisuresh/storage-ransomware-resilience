@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic detection rate by adversarial scenario</title>
+  <desc id="desc">Fast rewriting 100 percent, slow rewriting 23.56 percent, partial-file rewriting 61.68 percent, and rename churn 98.90 percent across 7,200 trials per scenario.</desc>
+  <rect width="1000" height="560" rx="24" fill="#f5f3ee"/>
+  <text x="55" y="60" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#071a2c">Detection varies materially by scenario</text>
+  <text x="55" y="92" font-family="Inter,Arial,sans-serif" font-size="16" fill="#647384">Deterministic synthetic telemetry · 7,200 trials per scenario · not production validation</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="17" fill="#071a2c">
+    <text x="55" y="170">Fast rewrite</text><rect x="245" y="142" width="650" height="42" rx="8" fill="#d9e0e6"/><rect x="245" y="142" width="650" height="42" rx="8" fill="#1c67ff"/><text x="910" y="170" font-weight="800">100.00%</text>
+    <text x="55" y="250">Slow rewrite</text><rect x="245" y="222" width="650" height="42" rx="8" fill="#d9e0e6"/><rect x="245" y="222" width="153" height="42" rx="8" fill="#b86614"/><text x="910" y="250" font-weight="800">23.56%</text>
+    <text x="55" y="330">Partial file</text><rect x="245" y="302" width="650" height="42" rx="8" fill="#d9e0e6"/><rect x="245" y="302" width="401" height="42" rx="8" fill="#16826c"/><text x="910" y="330" font-weight="800">61.68%</text>
+    <text x="55" y="410">Rename churn</text><rect x="245" y="382" width="650" height="42" rx="8" fill="#d9e0e6"/><rect x="245" y="382" width="643" height="42" rx="8" fill="#1c67ff"/><text x="910" y="410" font-weight="800">98.90%</text>
+  </g>
+  <line x1="245" y1="455" x2="895" y2="455" stroke="#9dadb9" stroke-width="2"/>
+  <g font-family="Inter,Arial,sans-serif" font-size="13" fill="#647384"><text x="240" y="480">0%</text><text x="558" y="480">50%</text><text x="870" y="480">100%</text></g>
+  <text x="55" y="525" font-family="Inter,Arial,sans-serif" font-size="15" fill="#526274">Overall: 71.03% (95% Wilson CI 70.51–71.56%); false containments: 12.90/1,000 simulated hours.</text>
+</svg>

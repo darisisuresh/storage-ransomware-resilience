@@ -2,22 +2,34 @@
 
 [![Pages](https://img.shields.io/badge/GitHub%20Pages-live-1c67ff)](https://darisisuresh.github.io/storage-ransomware-resilience/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0b7285.svg)](LICENSE)
+[![Evidence](https://img.shields.io/badge/evidence-synthetic%20benchmark-16826c)](evidence/results/README.md)
 
 **Website:** https://darisisuresh.github.io/storage-ransomware-resilience/
 
-Private companion repository for the research manuscript *Storage-Based Ransomware Detection and Recovery: A Closed-Loop Architecture for Array-Level Resilience*.
+Public evidence companion for the private research manuscript *Storage-Centric Ransomware Resilience: Multi-Signal Detection, Reversible Containment, and Validated Recovery*.
 
 The project describes a vendor-neutral control plane that joins storage telemetry, workload-aware anomaly scoring, reversible containment, immutable recovery points, and isolated recovery validation. This repository intentionally excludes the manuscript and raw integrity reports.
 
 ## Research boundary
 
-The current work presents an architecture and evaluation protocol. It does not claim production measurements, universal detection accuracy, or guaranteed recovery. Timing thresholds are configuration examples that require calibration against each workload.
+The repository now includes a deterministic numeric-telemetry benchmark in addition to the architecture and evaluation protocol. Its observations validate the reference implementation only under declared synthetic distributions; they are not malware execution, production measurements, universal detection accuracy, or guaranteed recovery.
+
+![Closed-loop architecture](evidence/figures/architecture.svg)
+
+## Reproducible findings
+
+Across 40 deterministic seeds, six workload profiles, six benign confounders, and 28,800 adversarial trials, the calibrated reference detector observed a 71.03% aggregate detection rate (95% Wilson CI: 70.51–71.56%) and 12.90 false containment transitions per 1,000 simulated benign workload-hours. Slow rewriting was detected in only 23.56% of trials, exposing an important limitation rather than a universal result.
+
+![Synthetic detection results](evidence/figures/synthetic-detection.svg)
 
 ## Repository contents
 
 - `docs/` — responsive project website
 - `evidence/architecture.md` — sanitized architectural specification
 - `evidence/evaluation-protocol.md` — reproducible test plan
+- `evidence/results/` — aggregate results, trial data, and checksums
+- `src/storage_resilience.py` — safe numeric telemetry emulator and detector
+- `scripts/run_experiments.py` — deterministic benchmark runner
 - `scripts/privacy_check.py` — publication privacy gate
 - `tests/` — privacy-check regression tests
 
@@ -25,7 +37,9 @@ The current work presents an architecture and evaluation protocol. It does not c
 
 ```bash
 python3 scripts/privacy_check.py
+python3 scripts/privacy_check.py --history
 python3 -m unittest discover -s tests -v
+python3 scripts/run_experiments.py
 ```
 
 ## Citation
@@ -33,7 +47,7 @@ python3 -m unittest discover -s tests -v
 ```bibtex
 @article{darisi_storage_ransomware_resilience,
   author = {Suresh Kumar Darisi},
-  title = {Storage-Based Ransomware Detection and Recovery: A Closed-Loop Architecture for Array-Level Resilience},
+  title = {Storage-Centric Ransomware Resilience: Multi-Signal Detection, Reversible Containment, and Validated Recovery},
   year = {2026},
   note = {Manuscript under preparation},
   url = {https://github.com/darisisuresh/storage-ransomware-resilience}

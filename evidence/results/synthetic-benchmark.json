@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "evidence_type": "deterministic synthetic telemetry emulator",
+  "claim_boundary": "Not malware execution, array benchmarking, or production validation.",
+  "configuration": {
+    "seeds": 40,
+    "workloads": [
+      "office",
+      "source",
+      "media",
+      "archive",
+      "virtual_disk",
+      "database"
+    ],
+    "attacks": [
+      "fast",
+      "slow",
+      "partial",
+      "rename_churn"
+    ],
+    "baseline_windows_per_workload_seed": 240,
+    "benign_steady_windows_per_workload_seed": 360,
+    "benign_job_windows_per_job_workload_seed": 24,
+    "calibration_windows_per_job_workload_seed": 80,
+    "threshold_calibration_quantile": 0.995,
+    "attack_trials_per_scenario_workload_seed": 30,
+    "attack_windows_per_trial": 12,
+    "window_seconds": 60
+  },
+  "aggregate": {
+    "benign_windows": 120960,
+    "benign_hours": 2016.0,
+    "false_containment_decisions": 26,
+    "false_containments_per_1000_hours": 12.896825,
+    "attack_trials": 28800,
+    "detected_trials": 20458,
+    "detection_rate": 0.710347,
+    "wilson_95": [
+      0.705081,
+      0.715558
+    ]
+  },
+  "by_attack": {
+    "fast": {
+      "trials": 7200,
+      "detected": 7200,
+      "detection_rate": 1.0,
+      "wilson_95": [
+        0.999467,
+        1.0
+      ],
+      "median_latency_seconds": 120,
+      "p95_latency_seconds": 120
+    },
+    "slow": {
+      "trials": 7200,
+      "detected": 1696,
+      "detection_rate": 0.235556,
+      "wilson_95": [
+        0.225896,
+        0.245497
+      ],
+      "median_latency_seconds": 600,
+      "p95_latency_seconds": 720
+    },
+    "partial": {
+      "trials": 7200,
+      "detected": 4441,
+      "detection_rate": 0.616806,
+      "wilson_95": [
+        0.605516,
+        0.62797
+      ],
+      "median_latency_seconds": 300,
+      "p95_latency_seconds": 660
+    },
+    "rename_churn": {
+      "trials": 7200,
+      "detected": 7121,
+      "detection_rate": 0.989028,
+      "wilson_95": [
+        0.986347,
+        0.991187
+      ],
+      "median_latency_seconds": 120,
+      "p95_latency_seconds": 420
+    }
+  }
+}

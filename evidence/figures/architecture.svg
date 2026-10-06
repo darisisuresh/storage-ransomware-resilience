@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Closed-loop storage ransomware resilience architecture</title>
+  <desc id="desc">Storage telemetry flows through normalization, policy decision, reversible containment, isolated validation, and staged restoration. Recovery authority is separated from production and analytics.</desc>
+  <defs><style>
+    .bg{fill:#f5f3ee}.panel{fill:#fff;stroke:#b8c5cf;stroke-width:2}.dark{fill:#071a2c}.blue{fill:#1c67ff}.cyan{fill:#6ee7f2}.ink{fill:#071a2c}.muted{fill:#526274}.white{fill:#fff}.line{fill:none;stroke:#1c67ff;stroke-width:4;marker-end:url(#arrow)}.dash{fill:none;stroke:#647384;stroke-width:2;stroke-dasharray:8 8}.t{font:700 24px Inter,Arial,sans-serif}.s{font:500 16px Inter,Arial,sans-serif}.k{font:800 13px Inter,Arial,sans-serif;letter-spacing:2px}
+  </style><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#1c67ff"/></marker></defs>
+  <rect class="bg" width="1200" height="620" rx="24"/>
+  <text x="60" y="62" class="k blue">OBSERVATION AND DECISION PLANE</text>
+  <g transform="translate(60 95)"><rect class="panel" width="200" height="150" rx="18"/><circle class="blue" cx="34" cy="34" r="14"/><text x="60" y="42" class="t ink">Observe</text><text x="24" y="86" class="s muted">Block · file · object</text><text x="24" y="114" class="s muted">namespace · snapshots</text></g>
+  <path class="line" d="M270 170h70"/>
+  <g transform="translate(350 95)"><rect class="panel" width="200" height="150" rx="18"/><circle class="blue" cx="34" cy="34" r="14"/><text x="60" y="42" class="t ink">Normalize</text><text x="24" y="86" class="s muted">Workload baseline</text><text x="24" y="114" class="s muted">Robust feature scores</text></g>
+  <path class="line" d="M560 170h70"/>
+  <g transform="translate(640 95)"><rect class="panel" width="200" height="150" rx="18"/><circle class="blue" cx="34" cy="34" r="14"/><text x="60" y="42" class="t ink">Decide</text><text x="24" y="86" class="s muted">Confidence · hysteresis</text><text x="24" y="114" class="s muted">Policy + audit record</text></g>
+  <path class="line" d="M850 170h70"/>
+  <g transform="translate(930 95)"><rect class="panel" width="210" height="150" rx="18"/><circle class="blue" cx="34" cy="34" r="14"/><text x="60" y="42" class="t ink">Contain</text><text x="24" y="86" class="s muted">Fence evidence point</text><text x="24" y="114" class="s muted">Limit writes · pause DR</text></g>
+  <path class="dash" d="M60 290h1080"/><text x="60" y="322" class="k muted">SEPARATE CREDENTIALS, RETENTION AUTHORITY, AND AUDIT</text>
+  <g transform="translate(210 365)"><rect class="dark" width="340" height="170" rx="20"/><circle class="cyan" cx="38" cy="38" r="15"/><text x="66" y="47" class="t white">Immutable recovery</text><text x="28" y="96" class="s" fill="#bfd0dc">Retention cannot be shortened</text><text x="28" y="126" class="s" fill="#bfd0dc">by production identities</text></g>
+  <path class="line" d="M560 450h80"/>
+  <g transform="translate(650 365)"><rect class="dark" width="340" height="170" rx="20"/><circle class="cyan" cx="38" cy="38" r="15"/><text x="66" y="47" class="t white">Validate + restore</text><text x="28" y="96" class="s" fill="#bfd0dc">Integrity · contamination · app</text><text x="28" y="126" class="s" fill="#bfd0dc">Operator-approved promotion</text></g>
+  <path class="line" d="M1035 255v65c0 42-25 45-65 45"/><path class="line" d="M650 525H550"/>
+</svg>
