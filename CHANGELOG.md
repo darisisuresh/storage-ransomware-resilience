@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 - 2026-10-14
+
+- Publish exact detector weights, concurrence, hysteresis, and threshold-calibration parameters.
+- Add per-workload threshold ranges and benign-activity false-containment breakdowns.
+- Extend detector regression coverage for published parameters and hysteresis release.
+- Record the sanitized AEGIS Integrity 3.3.2 scan status for the ICOIICS final revision.
+
 All notable changes to the public research companion are documented here.
 
 ## [1.0.0] — 2026-10-05

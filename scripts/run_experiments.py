@@ -12,7 +12,13 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from storage_resilience import ATTACKS, BENIGN_JOBS, WORKLOADS, Detector, TelemetryEmulator, empirical_quantile, fit_baseline, wilson_interval
+from storage_resilience import (
+    ATTACKS, BENIGN_JOBS, WORKLOADS, CONCURRENCE_BONUS,
+    CONCURRENCE_MIN_FEATURES, CONCURRENCE_Z, DEFAULT_THRESHOLD,
+    DETECTOR_WEIGHTS, FEATURES, RELEASE_RATIO, SUSTAIN_WINDOWS, Z_CLIP_MAX,
+    Detector, TelemetryEmulator, empirical_quantile, fit_baseline,
+    wilson_interval,
+)
 
 SEEDS = tuple(range(40))
 BASELINE_WINDOWS = 240
@@ -29,6 +35,8 @@ def run() -> dict:
     benign_windows = 0
     attack_rows = []
     by_attack = {name: {"trials": 0, "detected": 0, "latencies": []} for name in ATTACKS}
+    by_benign = {name: {"windows": 0, "decisions": 0} for name in ("steady", *BENIGN_JOBS)}
+    thresholds = {name: [] for name in WORKLOADS}
 
     for seed in SEEDS:
         emulator = TelemetryEmulator(seed)
@@ -39,14 +47,17 @@ def run() -> dict:
                 calibration.extend(emulator.benign(workload, job) for _ in range(CALIBRATION_WINDOWS_PER_JOB))
             scorer = Detector(baseline)
             threshold = max(2.30, empirical_quantile([scorer.score(w) for w in calibration], .995))
+            thresholds[workload].append(threshold)
             detector = Detector(baseline, threshold=threshold)
-            benign_sequence = [emulator.benign(workload) for _ in range(STEADY_WINDOWS)]
+            benign_sequence = [("steady", emulator.benign(workload)) for _ in range(STEADY_WINDOWS)]
             for job in BENIGN_JOBS:
-                benign_sequence.extend(emulator.benign(workload, job) for _ in range(BENIGN_JOB_WINDOWS))
-            for window in benign_sequence:
+                benign_sequence.extend((job, emulator.benign(workload, job)) for _ in range(BENIGN_JOB_WINDOWS))
+            for job, window in benign_sequence:
                 _, contain = detector.update(window)
                 benign_decisions += int(contain)
                 benign_windows += 1
+                by_benign[job]["windows"] += 1
+                by_benign[job]["decisions"] += int(contain)
 
             for scenario in ATTACKS:
                 for trial in range(ATTACK_TRIALS):
@@ -81,6 +92,23 @@ def run() -> dict:
             "p95_latency_seconds": latencies[min(len(latencies) - 1, int(len(latencies) * .95))] if latencies else None,
         }
     lo, hi = wilson_interval(overall_detected, overall_trials)
+    benign_summary = {}
+    for name, values in by_benign.items():
+        job_hours = values["windows"] * WINDOW_SECONDS / 3600
+        benign_summary[name] = {
+            "windows": values["windows"],
+            "hours": job_hours,
+            "false_containment_decisions": values["decisions"],
+            "false_containments_per_1000_hours": round(values["decisions"] / job_hours * 1000, 6),
+        }
+    threshold_summary = {
+        name: {
+            "minimum": round(min(values), 6),
+            "median": round(sorted(values)[len(values) // 2], 6),
+            "maximum": round(max(values), 6),
+        }
+        for name, values in thresholds.items()
+    }
     result = {
         "schema_version": "1.0",
         "evidence_type": "deterministic synthetic telemetry emulator",
@@ -92,6 +120,15 @@ def run() -> dict:
             "benign_job_windows_per_job_workload_seed": BENIGN_JOB_WINDOWS,
             "calibration_windows_per_job_workload_seed": CALIBRATION_WINDOWS_PER_JOB,
             "threshold_calibration_quantile": 0.995,
+            "minimum_threshold": DEFAULT_THRESHOLD,
+            "features": list(FEATURES),
+            "feature_weights": dict(zip(FEATURES, DETECTOR_WEIGHTS)),
+            "z_clip_max": Z_CLIP_MAX,
+            "concurrence_z": CONCURRENCE_Z,
+            "concurrence_min_features": CONCURRENCE_MIN_FEATURES,
+            "concurrence_bonus": CONCURRENCE_BONUS,
+            "sustain_windows": SUSTAIN_WINDOWS,
+            "release_ratio": RELEASE_RATIO,
             "attack_trials_per_scenario_workload_seed": ATTACK_TRIALS,
             "attack_windows_per_trial": ATTACK_WINDOWS, "window_seconds": WINDOW_SECONDS,
         },
@@ -103,6 +140,8 @@ def run() -> dict:
             "detection_rate": round(overall_detected / overall_trials, 6),
             "wilson_95": [round(lo, 6), round(hi, 6)],
         },
+        "thresholds_by_workload": threshold_summary,
+        "false_containment_by_benign_activity": benign_summary,
         "by_attack": attack_summary,
     }
     return result, attack_rows

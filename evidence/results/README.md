@@ -6,10 +6,12 @@ The benchmark covers six workload profiles, six benign confounders, four attack 
 
 The aggregate detection rate is **71.03%** (95% Wilson interval: **70.51–71.56%**) with **12.90 false containment transitions per 1,000 simulated workload-hours**. Results vary materially by scenario: fast rewriting is detected in all emulator trials, while slow rewriting is detected in only 23.56%. This gap is evidence against claiming universal detection.
 
+The JSON also publishes every detector parameter, the minimum/median/maximum calibrated threshold for each workload, and a benign-activity breakdown. All 26 false transitions occur in the authored compression profile (**270.83 per 1,000 compression-hours**); the other five confounders and steady windows produce none. This concentration is a regression result under the declared emulator distributions, not an estimate of real operational disruption.
+
 Artifacts:
 
 - `synthetic-benchmark.json` — configuration and aggregate results;
 - `attack-trials.csv` — one row per adversarial trial; and
 - `SHA256SUMS.json` — checksums generated with the results.
 
-These observations validate the behavior of this reference implementation under its declared synthetic distributions. They are not production accuracy, malware-family coverage, array performance, or a guarantee of recoverability.
+These observations validate the behavior of this reference implementation under its declared synthetic distributions. They are not production accuracy, malware-family coverage, array performance, snapshot-integrity evidence, application-consistency evidence, physical restore-time measurements, or a guarantee of recoverability.

@@ -25,4 +25,6 @@ The companion implementation uses numeric feature vectors only; it never touches
 
 The published aggregate covers 2,016 simulated benign workload-hours and 28,800 adversarial trials. Wilson score intervals are reported for proportions. A trial has twelve 60-second decision windows and requires two consecutive threshold crossings. The raw per-trial table and SHA-256 manifest are in `evidence/results/`.
 
+The detector configuration is fully serialized with the output: feature weights, clipping bound, concurrence threshold and bonus, sustain count, release ratio, calibration quantile, and the per-workload threshold range across seeds. False containment is reported separately for steady activity and each benign confounder so a concentrated operational failure mode cannot be hidden by the aggregate rate.
+
 This benchmark is a reference-implementation test, not a substitute for replaying storage traces, executing institutionally approved ransomware samples, validating vendor APIs, measuring array overhead, or testing application-consistent recovery.

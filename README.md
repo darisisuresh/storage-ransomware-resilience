@@ -20,6 +20,8 @@ The repository now includes a deterministic numeric-telemetry benchmark in addit
 
 Across 40 deterministic seeds, six workload profiles, six benign confounders, and 28,800 adversarial trials, the calibrated reference detector observed a 71.03% aggregate detection rate (95% Wilson CI: 70.51–71.56%) and 12.90 false containment transitions per 1,000 simulated benign workload-hours. Slow rewriting was detected in only 23.56% of trials, exposing an important limitation rather than a universal result.
 
+All numerical detector parameters and per-workload calibrated threshold ranges are published in the generated JSON. All 26 false transitions occur in the synthetic compression profile (270.83 per 1,000 compression-hours); the repository does not present that emulator-specific rate as field performance. Recovery workflow logic is regression-tested, while snapshot integrity, application consistency, and physical restore time remain explicitly unmeasured.
+
 ![Synthetic detection results](evidence/figures/synthetic-detection.svg)
 
 ## Repository contents
@@ -27,6 +29,7 @@ Across 40 deterministic seeds, six workload profiles, six benign confounders, an
 - `docs/` — responsive project website
 - `evidence/architecture.md` — sanitized architectural specification
 - `evidence/evaluation-protocol.md` — reproducible test plan
+- `evidence/integrity-scan.md` — sanitized final-version integrity scan status
 - `evidence/results/` — aggregate results, trial data, and checksums
 - `src/storage_resilience.py` — safe numeric telemetry emulator and detector
 - `scripts/run_experiments.py` — deterministic benchmark runner

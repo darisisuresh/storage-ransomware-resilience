@@ -23,6 +23,27 @@
     "benign_job_windows_per_job_workload_seed": 24,
     "calibration_windows_per_job_workload_seed": 80,
     "threshold_calibration_quantile": 0.995,
+    "minimum_threshold": 2.3,
+    "features": [
+      "overwrite",
+      "rmw",
+      "entropy_delta",
+      "namespace",
+      "snapshot_delta"
+    ],
+    "feature_weights": {
+      "overwrite": 0.23,
+      "rmw": 0.21,
+      "entropy_delta": 0.22,
+      "namespace": 0.17,
+      "snapshot_delta": 0.17
+    },
+    "z_clip_max": 6.0,
+    "concurrence_z": 2.0,
+    "concurrence_min_features": 3,
+    "concurrence_bonus": 0.42,
+    "sustain_windows": 2,
+    "release_ratio": 0.72,
     "attack_trials_per_scenario_workload_seed": 30,
     "attack_windows_per_trial": 12,
     "window_seconds": 60
@@ -39,6 +60,82 @@
       0.705081,
       0.715558
     ]
+  },
+  "thresholds_by_workload": {
+    "office": {
+      "minimum": 5.973725,
+      "median": 6.14881,
+      "maximum": 6.351234
+    },
+    "source": {
+      "minimum": 6.042034,
+      "median": 6.149634,
+      "maximum": 6.288695
+    },
+    "media": {
+      "minimum": 5.999491,
+      "median": 6.146026,
+      "maximum": 6.369197
+    },
+    "archive": {
+      "minimum": 5.978026,
+      "median": 6.149,
+      "maximum": 6.296481
+    },
+    "virtual_disk": {
+      "minimum": 6.037635,
+      "median": 6.166601,
+      "maximum": 6.42
+    },
+    "database": {
+      "minimum": 5.99085,
+      "median": 6.139972,
+      "maximum": 6.377614
+    }
+  },
+  "false_containment_by_benign_activity": {
+    "steady": {
+      "windows": 86400,
+      "hours": 1440.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    },
+    "backup": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    },
+    "restore": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    },
+    "migration": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    },
+    "compression": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 26,
+      "false_containments_per_1000_hours": 270.833333
+    },
+    "bulk_rename": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    },
+    "deployment": {
+      "windows": 5760,
+      "hours": 96.0,
+      "false_containment_decisions": 0,
+      "false_containments_per_1000_hours": 0.0
+    }
   },
   "by_attack": {
     "fast": {

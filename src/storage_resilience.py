@@ -16,6 +16,17 @@ FEATURES = ("overwrite", "rmw", "entropy_delta", "namespace", "snapshot_delta")
 WORKLOADS = ("office", "source", "media", "archive", "virtual_disk", "database")
 ATTACKS = ("fast", "slow", "partial", "rename_churn")
 
+# Public policy constants. Keeping these values named and versioned makes the
+# reported benchmark independently reproducible and prevents silent tuning.
+DETECTOR_WEIGHTS = (0.23, 0.21, 0.22, 0.17, 0.17)
+DEFAULT_THRESHOLD = 2.30
+CONCURRENCE_MIN_FEATURES = 3
+CONCURRENCE_Z = 2.0
+CONCURRENCE_BONUS = 0.42
+Z_CLIP_MAX = 6.0
+SUSTAIN_WINDOWS = 2
+RELEASE_RATIO = 0.72
+
 WORKLOAD_PROFILE = {
     "office": (0.18, 0.20, 0.12, 0.20, 0.16),
     "source": (0.26, 0.30, 0.09, 0.36, 0.22),
@@ -88,9 +99,9 @@ def fit_baseline(windows: Iterable[Window]) -> Baseline:
 
 
 class Detector:
-    weights = (0.23, 0.21, 0.22, 0.17, 0.17)
+    weights = DETECTOR_WEIGHTS
 
-    def __init__(self, baseline: Baseline, threshold: float = 2.30, sustain: int = 2):
+    def __init__(self, baseline: Baseline, threshold: float = DEFAULT_THRESHOLD, sustain: int = SUSTAIN_WINDOWS):
         self.baseline = baseline
         self.threshold = threshold
         self.sustain = sustain
@@ -98,9 +109,9 @@ class Detector:
         self.contained = False
 
     def score(self, window: Window) -> float:
-        z = [max(0.0, min(6.0, (x - m) / (1.4826 * d))) for x, m, d in zip(window.values, self.baseline.center, self.baseline.mad)]
+        z = [max(0.0, min(Z_CLIP_MAX, (x - m) / (1.4826 * d))) for x, m, d in zip(window.values, self.baseline.center, self.baseline.mad)]
         weighted = sum(w * value for w, value in zip(self.weights, z))
-        concurrence = 0.42 if sum(value >= 2.0 for value in z) >= 3 else 0.0
+        concurrence = CONCURRENCE_BONUS if sum(value >= CONCURRENCE_Z for value in z) >= CONCURRENCE_MIN_FEATURES else 0.0
         return weighted + concurrence
 
     def update(self, window: Window) -> tuple[float, bool]:
@@ -109,7 +120,7 @@ class Detector:
         entered = self.streak >= self.sustain and not self.contained
         if entered:
             self.contained = True
-        elif score < self.threshold * 0.72:
+        elif score < self.threshold * RELEASE_RATIO:
             self.contained = False
             self.streak = 0
         return score, entered
